@@ -103,7 +103,13 @@ void finalRoom::Draw() {
 		cout << "-";
 	}
 	cout << endl;
-	cout << "Score: " << score << endl;
+	cout << "Bad Guy Health: " << badGuyHealth << endl;
+	if (weaponPossesion == false) {
+		cout << "NO WEAPON IN HAND" << endl;
+	}
+	else {
+		cout << "YOU HAVE A WEAPON" << endl;
+	}
 }
 
 // User Input for MOVING!
