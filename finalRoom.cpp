@@ -1,4 +1,4 @@
-// Snake Game
+// Final Boss battle
 // by Claire Cashmore
 #include <iostream>
 #include <conio.h>
@@ -7,20 +7,20 @@
 #include <windows.h>
 
 using namespace std;
-
+enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
+//Stores the direction in dir
+eDirection dir;
 class finalRoom {
 private:
 	bool gameOver = false;
-	bool weaponPossession = false;
+	bool weaponPossesion = false;
 	const int width = 20;
 	const int height = 20;
 	int badGuyTime = 0;
 	int badGuyHealth = 100;
 	int x, y, weaponX, weaponY, badGuyX, badGuyY, score;
 	
-	enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
-	//Stores the direction in dir
-	eDirection dir;
+
 public:
 	void Setup();
 	void Draw();
@@ -136,9 +136,8 @@ void finalRoom::Input() {
 //Apply Our Created Functions with Logic
 bool finalRoom::Logic(bool gameOver) {
 	 
-	//BAD GUY HEALTH
+	//BAD GUY
 	while (badGuyHealth > 0) {
-
 		// this deals with the situation of going "through" walls
 		if (badGuyX >= width) {
 			badGuyX = 0;
@@ -180,6 +179,8 @@ bool finalRoom::Logic(bool gameOver) {
 			}
 		}
 
+
+
 		// Movement of head
 		switch (dir) {
 		case UP:
@@ -198,28 +199,25 @@ bool finalRoom::Logic(bool gameOver) {
 			break;
 		}
 
-		// Ends game if you hit bad guy
-		if (x == badGuyX && y == badGuyY) {
+		// Ends game if you hit bad guy without weapon
+		if (x == badGuyX && y == badGuyY && weaponPossesion == false) {
+
 			gameOver = true;
+		}
+		else if (x == badGuyX && y == badGuyY && weaponPossesion == true) {
+			badGuyHealth -= 10;
+			badGuyX = width;
+			badGuyY = height;
+			weaponPossesion = false;
 		}
 		// Ends game if you run into walls
 		if (x > width || x < 0 || y > height || y < 0)
 			gameOver = true;
 
-		if (x == badGuyX && y == badGuyY && weaponPossession == false)
-			gameOver = true;
-		// If the player has a weapon, can damage the boss.
-		else if (x == badGuyX && y == badGuyY && weaponPossession == true) {
-			badGuyHealth -= 10;
-			weaponPossession == false;
-			badGuyX = rand() % width;
-			badGuyY = rand() % height;
-		}
-
-		// IF we get weapon, be able to hit bad guy
+		// IF we get weapon
 		if (x == weaponX && y == weaponY) {
-			//Increase score by 10
-			weaponPossession == true;
+
+			weaponPossesion = true;
 			//Randomly generates NEW fruits on screen
 			srand(time(0));
 			weaponX = rand() % width;
