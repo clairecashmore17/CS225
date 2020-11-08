@@ -8,9 +8,10 @@ Last modified: 11/04/2020
 Changelog: 
 11/02/2020: Made the blueRoom class and filled out its functions
 11/04/2020: Implemented the 3 game variants though its jank
+11/07/2020: cleaned up stuff and changed the timings of things. Regular games are at 1.25 seconds and the fast version is .75seconds
 TODO:
-Make 3 variations of the game (color, extra symbol, faster) implementation for symbol is done but jank color is still a work in progress
 comment and document
+Put things in header and cpp files
 Change the numPad to align with regular numPads with lower numbers at the bottom ???
 */
 
@@ -133,7 +134,7 @@ void blueRoom::introMemoryGame() {
 				printf("%c", gameNumPad[k][j]);
 			}
 		}
-		usleep(1000000);
+		usleep(1250000);
 		system("cls");
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++)
@@ -146,13 +147,20 @@ void blueRoom::introMemoryGame() {
 /*this just adds some spuff symbols to trick the player. Implementation is janky and spaghetti
 but all I'm doing is getting it up and running*/
 void blueRoom::symbolMemoryGame() {
-	char gameNumPad[7][18] = { "__1____2____3___\n",
+ 	char gameNumPad[7][18] = { "__1____2____3___\n",
 						   "|    |    |    |\n",
 						   "__4____5____6___\n",
 						   "|    |    |    |\n",
 						   "__7____8____9___\n",
 						   "|    |    |    |\n",
 						   "________________\n" };
+	cout << "No lets add a little bit of difficulty shall we?\n";
+	cout << "This time around there will be 2 symbols on the pad an X and an O.\n";
+	cout << "You only care about the Xs but lets see if you can keep the two straight.\n";
+	usleep(5000000);
+	system("cls");
+	cout << "Let the game begin!\n\n\n\n";
+	usleep(1250000);
 
 	gamePasswordCreator();
 	for (int i = 0; i < 4; i++) {
@@ -219,7 +227,7 @@ void blueRoom::symbolMemoryGame() {
 				printf("%c", gameNumPad[k][j]);
 			}
 		}
-		usleep(1000000);
+		usleep(1250000);
 		system("cls");
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++)
@@ -242,7 +250,14 @@ void  blueRoom::symbolColorMemoryGame() {
 						   "|    |    |    |\n",
 						   "________________\n" };
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	int evenSymbolFlag = 0; //flag that tells the program which X to change to a specific color
+	
+	cout << "Well I think things have been too easy as of yet so I've added a little somethings\n";
+	cout << "Now instead of Xs and Os there are just Xs and xs. Don't worry though I've come up with a way to differentiate between them\n";
+	cout << "The Xs will be in green and the xs will be in yellow so you should have no trouble!\n";
+	usleep(5000000);
+	system("cls");
+	cout << "Good luck and have fun\n\n\n\n";
+	usleep(750000);
 
 	gamePasswordCreator();
 	for (int i = 0; i < 4; i++) {
@@ -277,46 +292,45 @@ void  blueRoom::symbolColorMemoryGame() {
 		}
 		switch (imposterPositionArray[i]) {
 		case 1:
-			gameNumPad[1][2] = 'X';
+			gameNumPad[1][2] = 'x';
 			break;
 		case 2:
-			gameNumPad[1][7] = 'X';
+			gameNumPad[1][7] = 'x';
 			break;
 		case 3:
-			gameNumPad[1][12] = 'X';
+			gameNumPad[1][12] = 'x';
 			break;
 		case 4:
-			gameNumPad[3][2] = 'X';
+			gameNumPad[3][2] = 'x';
 			break;
 		case 5:
-			gameNumPad[3][7] = 'X';
+			gameNumPad[3][7] = 'x';
 			break;
 		case 6:
-			gameNumPad[3][12] = 'X';
+			gameNumPad[3][12] = 'x';
 			break;
 		case 7:
-			gameNumPad[5][2] = 'X';
+			gameNumPad[5][2] = 'x';
 			break;
 		case 8:
-			gameNumPad[5][7] = 'X';
+			gameNumPad[5][7] = 'x';
 			break;
 		case 9:
-			gameNumPad[5][12] = 'X';
+			gameNumPad[5][12] = 'x';
 			break;
 		}
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++) {
-				if (gameNumPad[k][j] == 'X') {
-					if(((evenSymbolFlag++)%2) != 1)
-					   SetConsoleTextAttribute(hConsole, 10); // the for is a green color can change to make it different colors heres the stackoverflow like https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
-					else
-					   SetConsoleTextAttribute(hConsole, 14); // sets to a yellow color
+				if (gameNumPad[k][j] == 'X')
+					SetConsoleTextAttribute(hConsole, 10); // the for is a maroonish color can change to make it different colors heres the stackoverflow like https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
+				else if (gameNumPad[k][j] == 'x') {
+					SetConsoleTextAttribute(hConsole, 14);
 				}
 				printf("%c", gameNumPad[k][j]);
 				SetConsoleTextAttribute(hConsole, 7); // makes the text white
 			}
 		}
-		usleep(1000000);
+		usleep(1250000);
 		system("cls");
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++)
@@ -336,7 +350,11 @@ void  blueRoom::fastSymbolColorMemoryGame() {
 						   "|    |    |    |\n",
 						   "________________\n" };
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	int evenSymbolFlag = 0; //flag that tells the program which X to change to a specific color
+
+	cout << "How bout we make this faster?\n";
+	usleep(1250000);
+	cout << "That was a rrhetorical question lets go!\n\n\n\n";
+	usleep(1250000);
 
 	gamePasswordCreator();
 	for (int i = 0; i < 4; i++) {
@@ -371,46 +389,45 @@ void  blueRoom::fastSymbolColorMemoryGame() {
 		}
 		switch (imposterPositionArray[i]) {
 		case 1:
-			gameNumPad[1][2] = 'X';
+			gameNumPad[1][2] = 'x';
 			break;
 		case 2:
-			gameNumPad[1][7] = 'X';
+			gameNumPad[1][7] = 'x';
 			break;
 		case 3:
-			gameNumPad[1][12] = 'X';
+			gameNumPad[1][12] = 'x';
 			break;
 		case 4:
-			gameNumPad[3][2] = 'X';
+			gameNumPad[3][2] = 'x';
 			break;
 		case 5:
-			gameNumPad[3][7] = 'X';
+			gameNumPad[3][7] = 'x';
 			break;
 		case 6:
-			gameNumPad[3][12] = 'X';
+			gameNumPad[3][12] = 'x';
 			break;
 		case 7:
-			gameNumPad[5][2] = 'X';
+			gameNumPad[5][2] = 'x';
 			break;
 		case 8:
-			gameNumPad[5][7] = 'X';
+			gameNumPad[5][7] = 'x';
 			break;
 		case 9:
-			gameNumPad[5][12] = 'X';
+			gameNumPad[5][12] = 'x';
 			break;
 		}
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++) {
-				if (gameNumPad[k][j] == 'X') {
-					if (((evenSymbolFlag++) % 2) != 1)
-						SetConsoleTextAttribute(hConsole, 10); // the for is a maroonish color can change to make it different colors heres the stackoverflow like https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
-					else
-						SetConsoleTextAttribute(hConsole, 14);
+				if (gameNumPad[k][j] == 'X')
+					SetConsoleTextAttribute(hConsole, 10); // the for is a maroonish color can change to make it different colors heres the stackoverflow like https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
+				else if (gameNumPad[k][j] == 'x') {
+					SetConsoleTextAttribute(hConsole, 14);
 				}
 				printf("%c", gameNumPad[k][j]);
 				SetConsoleTextAttribute(hConsole, 7); // makes the text white
 			}
 		}
-		usleep(500000);
+		usleep(750000);
 		system("cls");
 		for (int k = 0; k < 7; k++) {
 			for (int j = 0; j < 18; j++)
@@ -435,8 +452,7 @@ void blueRoom::patternCheck() {
 		cout << "Well now you should have the code, but the question is can you remember? ";
 		cin >> userAnswer;
 		if (userAnswer == doorPassCode)
-			userAnswer = 0; // placeholder
-			//end screen
+			exit(0);
 		else
 			cout << "Sorry";
 	}
@@ -474,99 +490,3 @@ void blueRoom::usleep(__int64 usec)
 	WaitForSingleObject(timer, INFINITE);
 	CloseHandle(timer);
 }
-
-
-
-/*OLD VERSIONS OF FUNCTIONS*/
-
-/*void blueRoom::introMemoryGame() {
-	gamePasswordCreator();
-	for (int i = 0; i < 4; i++) {
-		switch (positionArray[i]) {
-		case 1:
-			cout << "__1____2____3___" << endl;
-			cout << "| X  |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 2:
-			cout << "__1____2____3___" << endl;
-			cout << "|    | X  |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 3:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    | X  |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 4:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "| X  |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 5:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    | X  |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 6:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    | X  |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 7:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "| X  |    |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 8:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    | X  |    |" << endl;
-			cout << "________________" << endl;
-			break;
-		case 9:
-			cout << "__1____2____3___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__4____5____6___" << endl;
-			cout << "|    |    |    |" << endl;
-			cout << "__7____8____9___" << endl;
-			cout << "|    |    | X  |" << endl;
-			cout << "________________" << endl;
-			break;
-		}
-		usleep(1000000);
-		system("cls");
-		usleep(10000);
-	}
-}*/
