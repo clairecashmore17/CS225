@@ -7,21 +7,22 @@
 #include <windows.h>
 
 using namespace std;
-enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
-//Stores the direction in dir
-eDirection dir;
+
 class finalRoom {
 private:
 	bool gameOver = false, win = false;
 	bool weaponPossesion = false;
 	const int width = 20;
-	const int height = 20;
+	const int height = 12;
 	int badGuyTime = 0;
-	int badGuyHealth = 100;
-	int x, y, weaponX, weaponY, badGuyX, badGuyY, weaponCollected = 0;
-	
+	int badGuyHealth = 20;
+	int x, y, weaponX, weaponY, badGuyX=0, badGuyY=0, weaponCollected = 0;
+	enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
+	//Stores the direction in dir
+	eDirection dir;
 
 public:
+	//finalRoom(bool gameOver = false, bool win = false, bool weaponPossesion = false, const int width = 20, const int height = 12, int badGuyTime = 0, int badGuyHealth = 100, int x, int y, int weaponX, int weaponY, int badGuyX = 0, int badGuyY = 0, int weaponCollected = 0);
 	void Setup();
 	void Draw();
 	void Input();
@@ -34,7 +35,7 @@ public:
 			cout << "You died at the hands of a child..." << endl;
 		}
 	}
-	//void anotherRound();
+	
 };
 
 // Color Function
@@ -45,7 +46,7 @@ void SetColor(int value) {
 //Set up our game stats
 void finalRoom::Setup() {
 	gameOver = false;
-	// The direction is 0 so snake is not moving originally
+	// The direction is 0 so player is not moving originally
 	dir = STOP;
 	// Coordinates of head to start in center screen
 	x = width / 2;
@@ -57,9 +58,7 @@ void finalRoom::Setup() {
 	weaponY = rand() % height;
 	
 
-	//Bad Guy's original location
-	badGuyX = width / 2;
-	badGuyY = height / 2;
+
 }
 
 //Draw to screen
@@ -70,11 +69,7 @@ void finalRoom::Draw() {
 	// Creates the top wall
 	cout << "Collect a weapon(!) to fight the child(&), weapon only has 1 hit!" << endl;
 	cout << "collected weapons : " << weaponCollected << endl;
-	if (x == badGuyX && y == badGuyY ) {
-		SetColor(rand() % 10);
-		cout << "Hit!" << endl;
-		SetColor(7);
-	}
+	
 	for (int i = 0; i < width + 2; i++)
 		cout << "_";
 	cout << endl;
@@ -240,14 +235,35 @@ bool finalRoom::Logic(bool gameOver) {
 		if (x == badGuyX && y == badGuyY && weaponPossesion == false) {
 			gameOver = true;
 		}
+		if ((x+1) == badGuyX && (y+1) == badGuyY && weaponPossesion == true) {
+			badGuyHealth -= 10;
+			badGuyX = width;
+			badGuyY = height;
+			weaponPossesion = false;
+			SetColor(rand() % 10);
+			cout << "Hit!" << endl;
+			SetColor(7);
+		}
+		if ((x + 2) == badGuyX && (y + 2) == badGuyY && weaponPossesion == true) {
+			badGuyHealth -= 10;
+			badGuyX = width;
+			badGuyY = height;
+			weaponPossesion = false;
+			SetColor(rand() % 10);
+			cout << "Hit!" << endl;
+			SetColor(7);
+		}
 		if (x == badGuyX && y == badGuyY && weaponPossesion == true) {
 			badGuyHealth -= 10;
 			badGuyX = width;
 			badGuyY = height;
 			weaponPossesion = false;
+			SetColor(rand() % 10);
+			cout << "Hit!" << endl;
+			SetColor(7);
 		}
 
-
+		
 		// IF we get weapon
 		if (x == weaponX && y == weaponY) {
 			weaponCollected += 1;
@@ -284,5 +300,6 @@ int main() {
 		}
 	}
 	Player.checkWon();
-
+	cout << "Game over? " << endl;
+	cin >> userInput;
 }
