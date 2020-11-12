@@ -10,19 +10,28 @@ using namespace std;
 
 class finalRoom {
 private:
-	bool gameOver = false, win = false;
-	bool weaponPossesion = false;
-	const int width = 20;
-	const int height = 12;
-	int badGuyTime = 0;
-	int badGuyHealth = 20;
-	int x, y, weaponX, weaponY, badGuyX=0, badGuyY=0, weaponCollected = 0;
+	bool gameOver;
+	bool win;
+	bool weaponPossesion;
+	const int width;
+	const int height;
+	int badGuyTime;
+	int badGuyHealth;
+	int x, y, weaponX, weaponY, badGuyX, badGuyY, weaponCollected;
 	enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 	//Stores the direction in dir
 	eDirection dir;
 
 public:
-	//finalRoom(bool gameOver = false, bool win = false, bool weaponPossesion = false, const int width = 20, const int height = 12, int badGuyTime = 0, int badGuyHealth = 100, int x, int y, int weaponX, int weaponY, int badGuyX = 0, int badGuyY = 0, int weaponCollected = 0);
+	finalRoom(bool, bool, bool, const int, const int, int, int, int) {
+		bool gameOver = false, win = false;
+		bool weaponPossesion = false;
+		const int width = 20;
+		const int height = 12;
+		int badGuyTime = 0;
+		int badGuyHealth = 20;
+		int x, y, weaponX, weaponY, badGuyX = 0, badGuyY = 0, weaponCollected = 0;
+	};
 	void Setup();
 	void Draw();
 	void Input();
