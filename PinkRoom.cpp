@@ -21,7 +21,7 @@ private:
 public:
 	int levelUp() { level++; };
 	int damage() { health = health - 10; }
-	void displayQuestion(int x);
+	int displayQuestion(int x);
 	void displayStory();
 	void randomAttack();
 };
@@ -47,7 +47,7 @@ void playerStats::randomAttack() {
 		cout << "You were forced to sleep with your hand in warm water." << endl;
 	}
 }
-void playerStats::displayQuestion(int level) {
+int playerStats::displayQuestion(int level) {
 	switch (level) {
 		case 1:
 		/*Put Question answers here*/
@@ -194,7 +194,7 @@ void playerStats::displayQuestion(int level) {
 			cin >> playerAnswer;
 			if (playerAnswer == 'C' || playerAnswer == 'c') {
 				level++;
-				cout << "That seems understandable.... moving on. " << endl;
+				cout << "That seems understandable.... moving on. " << endl << endl;;
 			}
 			else {
 				health -= 10;
@@ -204,6 +204,7 @@ void playerStats::displayQuestion(int level) {
 			}
 			break;
 	}
+	return level;
 }
 
 
@@ -211,6 +212,7 @@ void playerStats::displayQuestion(int level) {
 
 void playerStats::displayStory() {
 	while (health != 0 && level != 8) {
+		cout << "Your health is : " << health << endl;
 		if (level == 1) {
 			ifstream fin("StoryLevel1.txt");
 			string line;
@@ -219,7 +221,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 
 		}
 		else if (level == 2) {
@@ -230,7 +232,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
 		else if (level == 3) {
 			ifstream fin("StoryLevel3.txt");
@@ -240,7 +242,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
 		else if (level == 4) {
 			ifstream fin("StoryLevel4.txt");
@@ -250,7 +252,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
 		else if (level == 5) {
 			ifstream fin("StoryLevel5.txt");
@@ -260,7 +262,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level =displayQuestion(level);
 		}
 		else if (level == 6) {
 			ifstream fin("StoryLevel6.txt");
@@ -270,7 +272,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
 		else if (level == 7) {
 			ifstream fin("StoryLevel7.txt");
@@ -280,7 +282,7 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
 		else if (level == 8) {
 			ifstream fin("StoryLevel8.txt");
@@ -290,9 +292,9 @@ void playerStats::displayStory() {
 			getline(fin, line);
 			cout << line << endl;
 			fin.close();
-			displayQuestion(level);
+			level = displayQuestion(level);
 		}
-		displayQuestion(level);
+		
 	}
 	if (health == 0 && level < 8) {
 		cout << "You didn't answer the way I wanted you to! Feed them to the gators!" << endl;
