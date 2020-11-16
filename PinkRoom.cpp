@@ -8,6 +8,7 @@
 #include <istream>
 #include <ostream>
 #include <fstream>
+#include <windows.h>
 
 
 using namespace std;
@@ -26,8 +27,14 @@ public:
 	void randomAttack();
 };
 
+
+// Color Function
+void SetColor(int value) {
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
+}
 void playerStats::randomAttack() {
 	int attack = rand() % 6;
+	SetColor(4);
 	if (attack == 0) {
 		cout << "You were pelted with weighted stuffed animals." << endl;
 	}
@@ -46,6 +53,7 @@ void playerStats::randomAttack() {
 	else if (attack == 6) {
 		cout << "You were forced to sleep with your hand in warm water." << endl;
 	}
+	SetColor(7);
 }
 int playerStats::displayQuestion(int level) {
 	switch (level) {
@@ -194,11 +202,11 @@ int playerStats::displayQuestion(int level) {
 			cin >> playerAnswer;
 			if (playerAnswer == 'C' || playerAnswer == 'c') {
 				level++;
-				cout << "That seems understandable.... moving on. " << endl << endl;;
+				cout << "That seems understandable.... moving on. \n\n " << endl << endl;
 			}
 			else {
 				health -= 10;
-				cout << "That's not what I wanted to hear!" << endl;
+				cout << "\n\nThat's not what I wanted to hear!" << endl;
 				randomAttack();
 				cout << "Try again... " << endl << endl;
 			}
@@ -212,7 +220,10 @@ int playerStats::displayQuestion(int level) {
 
 void playerStats::displayStory() {
 	while (health != 0 && level != 8) {
-		cout << "Your health is : " << health << endl;
+		cout << "Your health is : ";;
+		SetColor(2);
+		cout << health << endl;
+		SetColor(7);
 		if (level == 1) {
 			ifstream fin("StoryLevel1.txt");
 			string line;
