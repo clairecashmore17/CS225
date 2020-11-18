@@ -8,8 +8,5 @@ class abstractRoom {
 private:
 	string room;
 public:
-	virtual void displayIntro();
+	virtual void displayIntro() = 0;
 };
-void abstractRoom::displayIntro() {
-	cout << "Welcome to Juvenile Escape! Press Q to Play" << endl;
-}
