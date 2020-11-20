@@ -9,7 +9,7 @@ Changelog:
 */
 #include <iostream>
 #include <conio.h>
-#include <ctime>
+#include <time.h>
 #include <cstdlib>
 #include <windows.h>
 
@@ -17,28 +17,20 @@ using namespace std;
 
 class finalRoom {
 private:
-	bool gameOver;
-	bool win;
-	bool weaponPossesion;
-	const int width;
-	const int height;
-	int badGuyTime;
-	int badGuyHealth;
-	int x, y, weaponX, weaponY, badGuyX, badGuyY, weaponCollected;
+	bool gameOver = false, win = false;
+	bool weaponPossesion = false;
+	const int width = 20;
+	const int height = 12;
+	int badGuyTime = 0;
+	int badGuyHealth = 100;
+	int PlayerHealth = 3;
+	int x, y, weaponX, weaponY, badGuyX = 0, badGuyY = 0, weaponCollected = 0;
 	enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 	//Stores the direction in dir
 	eDirection dir;
 
 public:
-	finalRoom(bool, bool, bool, const int, const int, int, int, int) {
-		bool gameOver = false, win = false;
-		bool weaponPossesion = false;
-		const int width = 20;
-		const int height = 12;
-		int badGuyTime = 0;
-		int badGuyHealth = 20;
-		int x, y, weaponX, weaponY, badGuyX = 0, badGuyY = 0, weaponCollected = 0;
-	};
+	
 	void Setup();
 	void Draw();
 	void Input();
@@ -51,7 +43,7 @@ public:
 			cout << "You died at the hands of a child..." << endl;
 		}
 	}
-	
+
 };
 
 // Color Function
@@ -72,7 +64,7 @@ void finalRoom::Setup() {
 	srand(time(0));
 	weaponX = rand() % width;
 	weaponY = rand() % height;
-	
+
 
 
 }
@@ -85,7 +77,7 @@ void finalRoom::Draw() {
 	// Creates the top wall
 	cout << "Collect a weapon(!) to fight the child(&), weapon only has 1 hit!" << endl;
 	cout << "collected weapons : " << weaponCollected << endl;
-	
+
 	for (int i = 0; i < width + 2; i++)
 		cout << "_";
 	cout << endl;
@@ -115,7 +107,7 @@ void finalRoom::Draw() {
 			}
 			// Empty Playing Space   
 			else {
-					cout << " ";
+				cout << " ";
 			}
 			// Right wall    
 			if (j == width - 1)
@@ -130,6 +122,11 @@ void finalRoom::Draw() {
 	}
 	cout << endl;
 	cout << "Bad Guy Health: " << badGuyHealth << endl;
+
+	cout << "Your Health: ";
+	SetColor(2);
+	cout << PlayerHealth << endl;
+	SetColor(7);
 	if (weaponPossesion == false) {
 		cout << "NO WEAPON IN HAND" << endl;
 	}
@@ -169,139 +166,146 @@ void finalRoom::Input() {
 
 //Apply Our Created Functions with Logic
 bool finalRoom::Logic(bool gameOver) {
-	 
-	
-		// this deals with the situation of going "through" walls
-		if (badGuyX >= width) {
-			badGuyX = 0;
-			badGuyTime = rand() % 10;
-		}
-		else if (badGuyX < 0) {
-			badGuyX = width - 1;
-			badGuyTime = rand() % 10;
-		}
-		else if (badGuyY >= height) {
-			badGuyY = 0;
-			badGuyTime = rand() % 10;
-		}
-		else if (badGuyY < 0) {
-			badGuyY = height - 1;
-			badGuyTime = rand() % 10;
-		}
-
-		// Deals with head going through walls
-		if (x >= width) {
-			x = 0;
-		}
-		else if (x < 0) {
-			x = width - 1;
-		}
-		else if (y >= height) {
-			y = 0;
-		}
-		else if (y < 0) {
-			y = height - 1;
-		}
-
-		//This deals with movement of bad guy around playing field 
-		//Notes: badGuyTime is to have random X and Y movements around the map
-		else {
-			if (badGuyTime < 25) {
-				badGuyX++;
-				badGuyTime = rand() % 100;
-			}
-			else if (badGuyTime > 24 && badGuyTime < 50) {
-				badGuyY--;
-				badGuyTime = rand() % 100;
-			}
-			else if (badGuyTime > 49 && badGuyTime < 75) {
-				badGuyX--;
-				badGuyTime = rand() % 100;
-			}
-			else if (badGuyTime > 74 && badGuyTime < 100) {
-				badGuyY--;
-				badGuyTime = rand() % 100;
-			}
-			else if (badGuyTime == 100) {
-				badGuyTime = 0;
-			}
-		}
 
 
+	// this deals with the situation of going "through" walls
+	if (badGuyX >= width) {
+		badGuyX = 0;
+		badGuyTime = rand() % 10;
+	}
+	else if (badGuyX < 0) {
+		badGuyX = width - 1;
+		badGuyTime = rand() % 10;
+	}
+	else if (badGuyY >= height) {
+		badGuyY = 0;
+		badGuyTime = rand() % 10;
+	}
+	else if (badGuyY < 0) {
+		badGuyY = height - 1;
+		badGuyTime = rand() % 10;
+	}
 
-		// Movement of player
-		switch (dir) {
-		case UP:
-			y--;
-			break;
-		case DOWN:
-			y++;
-			break;
-		case LEFT:
-			x--;
-			break;
-		case RIGHT:
-			x++;
-			break;
-		default:
-			break;
+	// Deals with head going through walls
+	if (x >= width) {
+		x = 0;
+	}
+	else if (x < 0) {
+		x = width - 1;
+	}
+	else if (y >= height) {
+		y = 0;
+	}
+	else if (y < 0) {
+		y = height - 1;
+	}
+
+	//This deals with movement of bad guy around playing field 
+	//Notes: badGuyTime is to have random X and Y movements around the map
+	else {
+		if (badGuyTime < 25) {
+			badGuyX++;
+			badGuyTime = rand() % 100;
 		}
+		else if (badGuyTime > 24 && badGuyTime < 50) {
+			badGuyY--;
+			badGuyTime = rand() % 100;
+		}
+		else if (badGuyTime > 49 && badGuyTime < 75) {
+			badGuyX--;
+			badGuyTime = rand() % 100;
+		}
+		else if (badGuyTime > 74 && badGuyTime < 100) {
+			badGuyY--;
+			badGuyTime = rand() % 100;
+		}
+		else if (badGuyTime == 100) {
+			badGuyTime = 0;
+		}
+	}
 
-		// Ends game if you hit bad guy without weapon
-		if (x == badGuyX && y == badGuyY && weaponPossesion == false) {
+
+
+	// Movement of head
+	switch (dir) {
+	case UP:
+		y--;
+		break;
+	case DOWN:
+		y++;
+		break;
+	case LEFT:
+		x--;
+		break;
+	case RIGHT:
+		x++;
+		break;
+	default:
+		break;
+	}
+
+	// Ends game if you hit bad guy without weapon
+	if (x == badGuyX && y == badGuyY && weaponPossesion == false) {
+		if (PlayerHealth > 1) {
+			PlayerHealth--;
+		}
+		else
+		{
 			gameOver = true;
 		}
-		// The x+1 and x+2 are to make hitting the bad guy easier
-		if ((x+1) == badGuyX && (y+1) == badGuyY && weaponPossesion == true) {
-			badGuyHealth -= 10;
-			badGuyX = width;
-			badGuyY = height;
-			weaponPossesion = false;
-			SetColor(rand() % 10);
-			cout << "Hit!" << endl;
-			SetColor(7);
-		}
-		if ((x + 2) == badGuyX && (y + 2) == badGuyY && weaponPossesion == true) {
-			badGuyHealth -= 10;
-			badGuyX = width;
-			badGuyY = height;
-			weaponPossesion = false;
-			SetColor(rand() % 10);
-			cout << "Hit!" << endl;
-			SetColor(7);
-		}
-		// If the you hit badguy while in weapon in possession, decrese his life and put him somewhere else
-		if (x == badGuyX && y == badGuyY && weaponPossesion == true) {
-			badGuyHealth -= 10;
-			badGuyX = width;
-			badGuyY = height;
-			weaponPossesion = false;
-			SetColor(rand() % 10);
-			cout << "Hit!" << endl;
-			SetColor(7);
-		}
-
 		
-		// IF we get weapon
-		if (x == weaponX && y == weaponY) {
-			weaponCollected += 1;
-			weaponPossesion = true;
-			//Randomly generates NEW fruits on screen
-			srand(time(0));
-			weaponX = rand() % width;
-			weaponY = rand() % height;
+	}
+	if ((x + 1) == badGuyX && (y + 1) == badGuyY && weaponPossesion == true) {
+		badGuyHealth -= 10;
+		badGuyX = width;
+		badGuyY = height;
+		weaponPossesion = false;
+		SetColor(rand() % 10);
+		cout << "Hit!" << endl;
+		SetColor(7);
+		Sleep(10);
+	}
+	if ((x + 2) == badGuyX && (y + 2) == badGuyY && weaponPossesion == true) {
+		badGuyHealth -= 10;
+		badGuyX = width;
+		badGuyY = height;
+		weaponPossesion = false;
+		SetColor(rand() % 10);
+		cout << "Hit!" << endl;
+		SetColor(7);
+		Sleep(10);
+	}
+	if (x == badGuyX && y == badGuyY && weaponPossesion == true) {
+		badGuyHealth -= 10;
+		badGuyX = width;
+		badGuyY = height;
+		weaponPossesion = false;
+		SetColor(rand() % 10);
+		cout << "Hit!" << endl;
+		SetColor(7);
+		Sleep(10);
+	}
 
-		}
-	// Once you defeate badguy
-		if (badGuyHealth == 0) {
-			gameOver = true;
-			win = true;
-		}
+
+	// IF we get weapon
+	if (x == weaponX && y == weaponY) {
+		weaponCollected += 1;
+		weaponPossesion = true;
+		//Randomly generates NEW fruits on screen
+		srand(time(0));
+		weaponX = rand() % width;
+		weaponY = rand() % height;
+
+	}
+	if (badGuyHealth == 0) {
+		gameOver = true;
+		win = true;
+	}
 	return gameOver;
 }
 
 int main() {
-	
+
 	char userInput;
 	bool gameOver = false;
 	finalRoom Player;
@@ -322,3 +326,4 @@ int main() {
 	cout << "Game over? " << endl;
 	cin >> userInput;
 }
+
