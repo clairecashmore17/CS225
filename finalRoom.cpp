@@ -9,6 +9,7 @@ Changelog:
 */
 #include <iostream>
 #include <conio.h>
+#include <ctime>
 #include <time.h>
 #include <cstdlib>
 #include <windows.h>
@@ -306,12 +307,12 @@ bool finalRoom::Logic(bool gameOver) {
 
 int main() {
 
-	char userInput;
+	string userInput;
 	bool gameOver = false;
 	finalRoom Player;
-	cout << "Are you ready to play? y or n: ";
+	cout << "Are you ready to play? yes or no: ";
 	cin >> userInput;
-	while (userInput == 'y') {
+	while (userInput == "yes") {
 
 		Player.Setup();
 		while (!gameOver) {
@@ -319,11 +320,10 @@ int main() {
 			Player.Input();
 			gameOver = Player.Logic(gameOver);
 			if (gameOver == true)
-				userInput = 'n';
+				userInput = "no";
 		}
 	}
 	Player.checkWon();
-	cout << "Game over? " << endl;
+	cout << "Game over. Press Q to quit " << endl;
 	cin >> userInput;
 }
-
