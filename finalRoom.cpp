@@ -1,5 +1,12 @@
-// Final Boss battle
-// by Claire Cashmore
+/*
+FinalRoom code:
+Code that creates the final room and puts the player through a "snake" like game involving chasing and collecting.
+
+Last modified: 11/20/2020
+Changelog: 
+11/20/20: I added some comments and updated the health system.
+
+*/
 #include <iostream>
 #include <conio.h>
 #include <ctime>
@@ -222,7 +229,7 @@ bool finalRoom::Logic(bool gameOver) {
 
 
 
-		// Movement of head
+		// Movement of player
 		switch (dir) {
 		case UP:
 			y--;
@@ -244,6 +251,7 @@ bool finalRoom::Logic(bool gameOver) {
 		if (x == badGuyX && y == badGuyY && weaponPossesion == false) {
 			gameOver = true;
 		}
+		// The x+1 and x+2 are to make hitting the bad guy easier
 		if ((x+1) == badGuyX && (y+1) == badGuyY && weaponPossesion == true) {
 			badGuyHealth -= 10;
 			badGuyX = width;
@@ -262,6 +270,7 @@ bool finalRoom::Logic(bool gameOver) {
 			cout << "Hit!" << endl;
 			SetColor(7);
 		}
+		// If the you hit badguy while in weapon in possession, decrese his life and put him somewhere else
 		if (x == badGuyX && y == badGuyY && weaponPossesion == true) {
 			badGuyHealth -= 10;
 			badGuyX = width;
@@ -283,6 +292,7 @@ bool finalRoom::Logic(bool gameOver) {
 			weaponY = rand() % height;
 
 		}
+	// Once you defeate badguy
 		if (badGuyHealth == 0) {
 			gameOver = true;
 			win = true;
