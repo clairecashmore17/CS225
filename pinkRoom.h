@@ -8,11 +8,12 @@
 #include <ostream>
 #include <fstream>
 #include <windows.h>
+#include "room.h"
 
 
 using namespace std;
 
-class pinkRoom {
+class pinkRoom : public room {
 private:
 	int health = 100;
 	int level = 1;
