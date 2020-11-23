@@ -5,10 +5,11 @@
 #include <cstdlib>
 #include <windows.h>
 #include <cmath>
+#include "room.h"
 
 using namespace std;
 
-class blueRoom {
+class blueRoom : public room{
 private:
 	int positionArray[4], imposterPositionArray[4], doorPositionArray[4], userAnswer, gamePassCode, doorPassCode;
 	static int doorPassCodeIndex;
