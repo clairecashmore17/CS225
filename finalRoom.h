@@ -6,10 +6,11 @@
 #include <ctime>
 #include <cstdlib>
 #include <windows.h>
+#include "room.h"
 
 using namespace std;
 
-class finalRoom {
+class finalRoom : public room{
 private:
 	bool gameOver;
 	bool win;
