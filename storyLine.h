@@ -23,4 +23,6 @@ private:
 public:
 	storyLine();
 	//intro;
+	void interlude(string room);
 };
+
